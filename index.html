@@ -1,464 +1,454 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="gu">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Matchstick Equation — Dreamchild Garbhsanskar</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;600;700&family=Roboto:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-      html,body{margin:0;padding:0;}
-      body{font-family:'Noto Sans Gujarati','Roboto',sans-serif;background:#FFFFFF;color:#444;padding:12px 10px 28px;}
-      .wrap{position:relative;max-width:560px;margin:0 auto;}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Matchstick Equation — Dreamchild Garbhsanskar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;600;700&family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Noto Sans Gujarati','Roboto',sans-serif;background:#FFFFFF;color:#444;padding:12px 10px 28px;}
+  .wrap{position:relative;max-width:560px;margin:0 auto;}
 
-      /* 1. title */
-      .p-title{font-size:18px;font-weight:600;color:#752886;text-align:center;margin:4px 0 4px;line-height:1.4;}
-      .p-sub{font-size:13px;color:#888;text-align:center;margin-bottom:12px;}
+  /* 1. title */
+  .p-title{font-size:18px;font-weight:600;color:#752886;text-align:center;margin:4px 0 4px;line-height:1.4;}
+  .p-sub{font-size:13px;color:#888;text-align:center;margin-bottom:12px;}
 
-      /* 2. tabs (radius 6px, centered) */
-      .tabs{display:flex;gap:6px;margin-bottom:12px;}
-      .tab{flex:1;min-height:36px;border-radius:6px;font-family:inherit;font-size:12px;font-weight:600;text-align:center;background:#fff;border:1.5px solid #E2E3E4;color:#888;cursor:pointer;touch-action:manipulation;padding:0;}
-      .tab:active{transform:scale(0.97);}
-      .tab.active{background:#752886;border-color:#752886;color:#fff;}
-      .tab.done{background:#EDD1FF;border-color:#752886;color:#752886;}
+  /* 2. tabs (radius 6px, centered) */
+  .tabs{display:flex;gap:6px;margin-bottom:12px;}
+  .tab{flex:1;min-height:36px;border-radius:6px;font-family:inherit;font-size:12px;font-weight:600;text-align:center;background:#fff;border:1.5px solid #E2E3E4;color:#888;cursor:pointer;touch-action:manipulation;padding:0;}
+  .tab:active{transform:scale(0.97);}
+  .tab.active{background:#752886;border-color:#752886;color:#fff;}
+  .tab.done{background:#EDD1FF;border-color:#752886;color:#752886;}
 
-      /* 4. game area — white floating card on white page */
-      .game{position:relative;background:#FFFFFF;border:1px solid #E2E3E4;box-shadow:0 2px 12px rgba(117,40,134,0.06);border-radius:14px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;min-height:120px;}
+  /* 4. game area — white floating card on white page */
+  .game{position:relative;background:#FFFFFF;border:1px solid #E2E3E4;box-shadow:0 2px 12px rgba(117,40,134,0.06);border-radius:14px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;min-height:120px;}
 
-      .sound{position:absolute;top:-10px;right:5px;width:32px;height:32px;border:1.5px solid #E2E3E4;border-radius:8px;background:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;padding:0;z-index:10;}
-      .sound:active{transform:scale(0.97);}
+  .sound{position:absolute;top:-10px;right:5px;width:32px;height:32px;border:1.5px solid #E2E3E4;border-radius:8px;background:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;padding:0;z-index:10;}
+  .sound:active{transform:scale(0.97);}
 
-      .equation{display:flex;align-items:center;gap:6px;touch-action:none;}
-      .equation.shake{animation:shake 0.3s ease;}
-      @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .equation{display:flex;align-items:center;gap:6px;touch-action:none;}
+  .equation.shake{animation:shake 0.3s ease;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
-      .digit{position:relative;width:44px;height:80px;}
-      .seg{position:absolute;border-radius:4px;cursor:pointer;touch-action:none;}
-      .seg::before{content:'';position:absolute;inset:-5px;}
-      .seg.h{height:8px;width:24px;left:10px;}
-      .seg.v{width:8px;height:30px;}
-      .seg-t{top:2px;} .seg-m{top:36px;} .seg-b{top:70px;}
-      .seg-tl{top:8px;left:2px;} .seg-tr{top:8px;left:34px;}
-      .seg-bl{top:42px;left:2px;} .seg-br{top:42px;left:34px;}
+  .digit{position:relative;width:44px;height:80px;}
+  .seg{position:absolute;border-radius:4px;cursor:pointer;touch-action:none;}
+  .seg::before{content:'';position:absolute;inset:-5px;}
+  .seg.h{height:8px;width:24px;left:10px;}
+  .seg.v{width:8px;height:30px;}
+  .seg-t{top:2px;} .seg-m{top:36px;} .seg-b{top:70px;}
+  .seg-tl{top:8px;left:2px;} .seg-tr{top:8px;left:34px;}
+  .seg-bl{top:42px;left:2px;} .seg-br{top:42px;left:34px;}
 
-      .seg{background:transparent;border:1.5px dashed #E2E3E4;}
-      .seg.on{border:none;background:linear-gradient(#fcd34d,#f59e0b);box-shadow:0 1px 1px rgba(0,0,0,0.12);}
-      .seg.on::after{content:'';position:absolute;width:9px;height:9px;border-radius:50%;background:#b9412a;}
-      .seg.h.on::after{right:-2px;top:50%;transform:translateY(-50%);}
-      .seg.v.on::after{top:-2px;left:50%;transform:translateX(-50%);}
-      .seg.on.sel{background:linear-gradient(#a347c0,#752886);}
-      .seg.on.sel::after{background:#5a1d68;}
-      .seg.dropHover{background:#EDD1FF;border-color:#752886;border-style:solid;}
+  .seg{background:transparent;border:1.5px dashed #E2E3E4;}
+  .seg.on{border:none;background:linear-gradient(#fcd34d,#f59e0b);box-shadow:0 1px 1px rgba(0,0,0,0.12);}
+  .seg.on::after{content:'';position:absolute;width:9px;height:9px;border-radius:50%;background:#b9412a;}
+  .seg.h.on::after{right:-2px;top:50%;transform:translateY(-50%);}
+  .seg.v.on::after{top:-2px;left:50%;transform:translateX(-50%);}
+  .seg.on.sel{background:linear-gradient(#a347c0,#752886);}
+  .seg.on.sel::after{background:#5a1d68;}
+  .seg.dropHover{background:#EDD1FF;border-color:#752886;border-style:solid;}
 
-      .digit.solved .seg.on{background:linear-gradient(#66bb6a,#43a047);}
-      .digit.solved .seg.on::after{background:#1b5e20;}
+  .digit.solved .seg.on{background:linear-gradient(#66bb6a,#43a047);}
+  .digit.solved .seg.on::after{background:#1b5e20;}
 
-      .seg.hintFrom{animation:pulseFrom 0.8s ease 2;}
-      .seg.hintTo{animation:pulseTo 0.8s ease 2;}
-      @keyframes pulseFrom{0%,100%{box-shadow:0 0 0 0 rgba(117,40,134,0)}50%{box-shadow:0 0 0 4px rgba(117,40,134,0.6)}}
-      @keyframes pulseTo{0%,100%{background:transparent;border-color:#E2E3E4}50%{background:#EDD1FF;border-color:#752886}}
+  .seg.hintFrom{animation:pulseFrom 0.8s ease 2;}
+  .seg.hintTo{animation:pulseTo 0.8s ease 2;}
+  @keyframes pulseFrom{0%,100%{box-shadow:0 0 0 0 rgba(117,40,134,0)}50%{box-shadow:0 0 0 4px rgba(117,40,134,0.6)}}
+  @keyframes pulseTo{0%,100%{background:transparent;border-color:#E2E3E4}50%{background:#EDD1FF;border-color:#752886}}
 
-      .op{position:relative;width:30px;height:80px;}
-      .opbar{position:absolute;background:linear-gradient(#fcd34d,#f59e0b);border-radius:4px;box-shadow:0 1px 1px rgba(0,0,0,0.12);}
-      .op-mul .opbar{width:6px;height:30px;top:25px;left:12px;}
-      .op-mul .b1{transform:rotate(45deg);} .op-mul .b2{transform:rotate(-45deg);}
-      .op-eq .opbar{width:24px;height:7px;left:3px;}
-      .op-eq .e1{top:32px;} .op-eq .e2{top:48px;}
+  .op{position:relative;width:30px;height:80px;}
+  .opbar{position:absolute;background:linear-gradient(#fcd34d,#f59e0b);border-radius:4px;box-shadow:0 1px 1px rgba(0,0,0,0.12);}
+  .op-mul .opbar{width:6px;height:30px;top:25px;left:12px;}
+  .op-mul .b1{transform:rotate(45deg);} .op-mul .b2{transform:rotate(-45deg);}
+  .op-eq .opbar{width:24px;height:7px;left:3px;}
+  .op-eq .e1{top:32px;} .op-eq .e2{top:48px;}
 
-      .ghost{position:fixed;width:8px;height:30px;border-radius:4px;background:linear-gradient(#a347c0,#752886);pointer-events:none;z-index:60;transform:translate(-50%,-50%);box-shadow:0 2px 5px rgba(0,0,0,0.35);}
+  .ghost{position:fixed;width:8px;height:30px;border-radius:4px;background:linear-gradient(#a347c0,#752886);pointer-events:none;z-index:60;transform:translate(-50%,-50%);box-shadow:0 2px 5px rgba(0,0,0,0.35);}
 
-      /* 5. feedback (radius 8px) */
-      .fb{border-radius:8px;padding:9px 14px;min-height:40px;font-size:14px;display:flex;align-items:center;justify-content:center;text-align:center;opacity:0;transition:opacity .2s;margin-bottom:12px;}
-      .fb.show{opacity:1;}
-      .fb.ok{background:#D8F5E0;color:#1b5e20;border:1px solid #b2dfdb;}
-      .fb.bad{background:#FFEDEC;color:#b71c1c;border:1px solid #ffcdd2;}
-      .fb.hint{background:#FDE9C9;color:#a06000;border:1px solid #F9A824;}
-      .fb.done{background:#EDD1FF;color:#752886;border:1px solid #752886;font-weight:700;}
+  /* 5. feedback (radius 8px) */
+  .fb{border-radius:8px;padding:9px 14px;min-height:40px;font-size:14px;display:flex;align-items:center;justify-content:center;text-align:center;opacity:0;transition:opacity .2s;margin-bottom:12px;}
+  .fb.show{opacity:1;}
+  .fb.ok{background:#D8F5E0;color:#1b5e20;border:1px solid #b2dfdb;}
+  .fb.bad{background:#FFEDEC;color:#b71c1c;border:1px solid #ffcdd2;}
+  .fb.hint{background:#FDE9C9;color:#a06000;border:1px solid #F9A824;}
+  .fb.done{background:#EDD1FF;color:#752886;border:1px solid #752886;font-weight:700;}
 
-      /* 6. buttons (radius 8px) */
-      .row{display:flex;gap:8px;margin-bottom:8px;}
-      .btn{flex:1;min-height:40px;border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;-webkit-appearance:none;touch-action:manipulation;padding:8px 10px;}
-      .btn:active{transform:scale(0.97);}
-      .btn-next{background:#F9A824;color:#fff;font-weight:700;border:none;display:none;}
-      .btn-hint{background:#FDE9C9;border:1.5px solid #F9A824;color:#a06000;font-weight:500;}
-      .btn-reset{background:#fff;border:1.5px solid #E2E3E4;color:#444;font-weight:500;}
+  /* 6. buttons (radius 8px) */
+  .row{display:flex;gap:8px;margin-bottom:8px;}
+  .btn{flex:1;min-height:40px;border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;-webkit-appearance:none;touch-action:manipulation;padding:8px 10px;}
+  .btn:active{transform:scale(0.97);}
+  .btn-next{background:#F9A824;color:#fff;font-weight:700;border:none;display:none;}
+  .btn-hint{background:#FDE9C9;border:1.5px solid #F9A824;color:#a06000;font-weight:500;}
+  .btn-reset{background:#fff;border:1.5px solid #E2E3E4;color:#444;font-weight:500;}
 
-      /* 7. step box (radius 6px, left aligned) */
-      .steps{display:none;background:#D8F5E0;border-radius:6px;padding:12px 14px;margin-top:10px;text-align:left;}
-      .steps h4{margin:0 0 6px;font-size:16px;font-weight:600;color:#1b5e20;}
-      .steps ol{margin:0;padding-left:20px;}
-      .steps li{font-size:12px;font-weight:400;color:#1b5e20;line-height:1.8;}
+  /* 7. step box (radius 6px, left aligned) */
+  .steps{display:none;background:#D8F5E0;border-radius:6px;padding:12px 14px;margin-top:10px;text-align:left;}
+  .steps h4{margin:0 0 6px;font-size:16px;font-weight:600;color:#1b5e20;}
+  .steps ol{margin:0;padding-left:20px;}
+  .steps li{font-size:12px;font-weight:400;color:#1b5e20;line-height:1.8;}
 
-      /* 8. how to play (radius 6px, border, left aligned) */
-      .howto{background:#F2F2F2;border:1px solid #E2E3E4;border-radius:6px;padding:14px 16px;margin-top:14px;text-align:left;}
-      .howto h4{margin:0 0 10px;font-size:16px;font-weight:600;color:#444444;}
-      .howto ul{margin:0;padding-left:18px;}
-      .howto li{font-size:14px;font-weight:400;color:#444444;line-height:1.7;}
+  /* 8. how to play (radius 6px, border, left aligned) */
+  .howto{background:#F2F2F2;border:1px solid #E2E3E4;border-radius:6px;padding:14px 16px;margin-top:14px;text-align:left;}
+  .howto h4{margin:0 0 10px;font-size:16px;font-weight:600;color:#444444;}
+  .howto ul{margin:0;padding-left:18px;}
+  .howto li{font-size:14px;font-weight:400;color:#444444;line-height:1.7;}
 
-      /* 9. footer */
-      .footer{text-align:center;font-size:11px;color:#C2C2C2;margin-top:16px;letter-spacing:.3px;}
+  /* 9. footer */
+  .footer{text-align:center;font-size:11px;color:#C2C2C2;margin-top:16px;letter-spacing:.3px;}
 
-      #confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50;}
-      .cf{position:absolute;width:9px;height:9px;top:-12px;border-radius:2px;animation:fall linear forwards;}
-      @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0;}}
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <!-- 1. title -->
-      <div class="p-title">1 દિવાસળી ખસેડો — ગુણાકાર સાચો કરો</div>
-      <div class="p-sub">
-        પીળી દિવાસળી ને ખાલી જગ્યામાં ખેંચો (drag) — અથવા ટૅપ કરો
-      </div>
+  #confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50;}
+  .cf{position:absolute;width:9px;height:9px;top:-12px;border-radius:2px;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- 1. title -->
+  <div class="p-title">1 દિવાસળી ખસેડો — ગુણાકાર સાચો કરો</div>
+  <div class="p-sub">પીળી દિવાસળી ને ખાલી જગ્યામાં ખેંચો (drag) — અથવા ટૅપ કરો</div>
 
-      <!-- 2. tabs -->
-      <div class="tabs" id="tabs"></div>
+  <!-- 2. tabs -->
+  <div class="tabs" id="tabs"></div>
 
-      <!-- SOUND TOGGLE — absolute on .wrap, scrolls with page, exempt from 1-9 layout order -->
-      <button class="sound" id="sound" aria-label="sound">🔇</button>
+  <!-- SOUND TOGGLE — absolute on .wrap, scrolls with page, exempt from 1-9 layout order -->
+  <button class="sound" id="sound" aria-label="sound">🔇</button>
 
-      <!-- 4. game area (white floating card) -->
-      <div class="game" id="game">
-        <div class="equation" id="equation"></div>
-      </div>
+  <!-- 4. game area (white floating card) -->
+  <div class="game" id="game">
+    <div class="equation" id="equation"></div>
+  </div>
 
-      <!-- 5. feedback -->
-      <div class="fb" id="fb"></div>
+  <!-- 5. feedback -->
+  <div class="fb" id="fb"></div>
 
-      <!-- 6. buttons -->
-      <div class="row">
-        <button class="btn btn-next" id="next">Next Puzzle</button>
-      </div>
-      <div class="row">
-        <button class="btn btn-hint" id="hint">Hint</button>
-        <button class="btn btn-reset" id="reset">Reset</button>
-      </div>
+  <!-- 6. buttons -->
+  <div class="row"><button class="btn btn-next" id="next">Next Puzzle</button></div>
+  <div class="row">
+    <button class="btn btn-hint" id="hint">Hint</button>
+    <button class="btn btn-reset" id="reset">Reset</button>
+  </div>
 
-      <!-- 7. step-by-step (auto-shows on solve) -->
-      <div class="steps" id="steps">
-        <h4>ઉકેલ — પગલાં</h4>
-        <ol id="stepsList"></ol>
-      </div>
+  <!-- 7. step-by-step (auto-shows on solve) -->
+  <div class="steps" id="steps">
+    <h4>ઉકેલ — પગલાં</h4>
+    <ol id="stepsList"></ol>
+  </div>
 
-      <!-- 8. how to play -->
-      <div class="howto">
-        <h4>How to Play</h4>
-        <ul>
-          <li>
-            પીળી દિવાસળી ને દબાવી રાખીને ખાલી (ડૅશવાળી) જગ્યામાં ખેંચો — drag &
-            drop.
-          </li>
-          <li>અથવા દિવાસળી પર ટૅપ કરો, પછી ખાલી જગ્યા પર ટૅપ કરો.</li>
-          <li>ફક્ત 1 દિવાસળી ખસેડીને ગુણાકાર સાચો બનાવો (દા.ત. 2 × 4 = 8).</li>
-          <li>સાચું થતાં જ આપોઆપ ✓ — પછી Next Puzzle દબાવો.</li>
-        </ul>
-      </div>
+  <!-- 8. how to play -->
+  <div class="howto">
+    <h4>How to Play</h4>
+    <ul>
+      <li>પીળી દિવાસળી ને દબાવી રાખીને ખાલી (ડૅશવાળી) જગ્યામાં ખેંચો — drag & drop.</li>
+      <li>અથવા દિવાસળી પર ટૅપ કરો, પછી ખાલી જગ્યા પર ટૅપ કરો.</li>
+      <li>ફક્ત 1 દિવાસળી ખસેડીને ગુણાકાર સાચો બનાવો (દા.ત. 2 × 4 = 8).</li>
+      <li>સાચું થતાં જ આપોઆપ ✓ — પછી Next Puzzle દબાવો.</li>
+    </ul>
+  </div>
 
-      <!-- 9. footer -->
-      <div class="footer">©Dreamchild Garbhsanskar</div>
-    </div>
-    <div id="confetti"></div>
+  <!-- 9. footer -->
+  <div class="footer">©Dreamchild Garbhsanskar</div>
+</div>
+<div id="confetti"></div>
 
-    <script>
-      (function(){
-        "use strict";
-        var KEY="dcgs_matchstick_v2";
+<script>
+(function(){
+  "use strict";
+  var KEY="dcgs_matchstick_v2";
 
-        var DIGITS={
-          0:['t','tl','tr','bl','br','b'],1:['tr','br'],2:['t','tr','m','bl','b'],
-          3:['t','tr','m','br','b'],4:['tl','tr','m','br'],5:['t','tl','m','br','b'],
-          6:['t','tl','m','bl','br','b'],7:['t','tr','br'],8:['t','tl','tr','m','bl','br','b'],
-          9:['t','tl','tr','m','br','b']
-        };
-        var REV={};
-        Object.keys(DIGITS).forEach(function(d){ REV[DIGITS[d].slice().sort().join('|')]=parseInt(d,10); });
-        var ALLSEG=['t','tl','tr','m','bl','br','b'];
-        var HCLASS={t:'h',m:'h',b:'h',tl:'v',tr:'v',bl:'v',br:'v'};
+  var DIGITS={
+    0:['t','tl','tr','bl','br','b'],1:['tr','br'],2:['t','tr','m','bl','b'],
+    3:['t','tr','m','br','b'],4:['tl','tr','m','br'],5:['t','tl','m','br','b'],
+    6:['t','tl','m','bl','br','b'],7:['t','tr','br'],8:['t','tl','tr','m','bl','br','b'],
+    9:['t','tl','tr','m','br','b']
+  };
+  var REV={};
+  Object.keys(DIGITS).forEach(function(d){ REV[DIGITS[d].slice().sort().join('|')]=parseInt(d,10); });
+  var ALLSEG=['t','tl','tr','m','bl','br','b'];
+  var HCLASS={t:'h',m:'h',b:'h',tl:'v',tr:'v',bl:'v',br:'v'};
 
-        var PUZZLES=[
-          { start:[3,4,8], sol:[2,4,8],
-            hint:{fromDi:0,fromSeg:'br',toDi:0,toSeg:'bl'},
-            steps:["પહેલા 3 ની જમણી-નીચેની દિવાસળી ઉપાડો.",
-                   "ડાબી-નીચેની ખાલી જગ્યામાં મૂકો — 3 બને 2.",
-                   "હવે 2 × 4 = 8 — સાચું!"] },
-          { start:[9,2,5], sol:[3,2,6],
-            hint:{fromDi:0,fromSeg:'tl',toDi:2,toSeg:'bl'},
-            steps:["9 ની ડાબી-ઉપરની દિવાસળી ઉપાડો.",
-                   "છેલ્લા 5 ની ડાબી-નીચેની ખાલી જગ્યામાં ખેંચો — 9 બને 3, 5 બને 6.",
-                   "હવે 3 × 2 = 6 — સાચું!"] },
-          { start:[2,3,4], sol:[2,2,4],
-            hint:{fromDi:1,fromSeg:'br',toDi:1,toSeg:'bl'},
-            steps:["વચ્ચેના 3 ની જમણી-નીચેની દિવાસળી ઉપાડો.",
-                   "ડાબી-નીચેની ખાલી જગ્યામાં મૂકો — 3 બને 2.",
-                   "હવે 2 × 2 = 4 — સાચું!"] },
-          { start:[3,5,9], sol:[3,3,9],
-            hint:{fromDi:1,fromSeg:'tl',toDi:1,toSeg:'tr'},
-            steps:["વચ્ચેના 5 ની ડાબી-ઉપરની દિવાસળી ઉપાડો.",
-                   "જમણી-ઉપરની ખાલી જગ્યામાં મૂકો — 5 બને 3.",
-                   "હવે 3 × 3 = 9 — સાચું!"] }
-        ];
+  var PUZZLES=[
+    { start:[3,4,8], sol:[2,4,8],
+      hint:{fromDi:0,fromSeg:'br',toDi:0,toSeg:'bl'},
+      steps:["પહેલા 3 ની જમણી-નીચેની દિવાસળી ઉપાડો.",
+             "ડાબી-નીચેની ખાલી જગ્યામાં મૂકો — 3 બને 2.",
+             "હવે 2 × 4 = 8 — સાચું!"] },
+    { start:[9,2,5], sol:[3,2,6],
+      hint:{fromDi:0,fromSeg:'tl',toDi:2,toSeg:'bl'},
+      steps:["9 ની ડાબી-ઉપરની દિવાસળી ઉપાડો.",
+             "છેલ્લા 5 ની ડાબી-નીચેની ખાલી જગ્યામાં ખેંચો — 9 બને 3, 5 બને 6.",
+             "હવે 3 × 2 = 6 — સાચું!"] },
+    { start:[2,3,4], sol:[2,2,4],
+      hint:{fromDi:1,fromSeg:'br',toDi:1,toSeg:'bl'},
+      steps:["વચ્ચેના 3 ની જમણી-નીચેની દિવાસળી ઉપાડો.",
+             "ડાબી-નીચેની ખાલી જગ્યામાં મૂકો — 3 બને 2.",
+             "હવે 2 × 2 = 4 — સાચું!"] },
+    { start:[3,5,9], sol:[3,3,9],
+      hint:{fromDi:1,fromSeg:'tl',toDi:1,toSeg:'tr'},
+      steps:["વચ્ચેના 5 ની ડાબી-ઉપરની દિવાસળી ઉપાડો.",
+             "જમણી-ઉપરની ખાલી જગ્યામાં મૂકો — 5 બને 3.",
+             "હવે 3 × 3 = 9 — સાચું!"] }
+  ];
 
-        function save(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}}
-        function load(){try{return JSON.parse(localStorage.getItem(KEY));}catch(e){return null;}}
+  function save(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}}
+  function load(){try{return JSON.parse(localStorage.getItem(KEY));}catch(e){return null;}}
 
-        var state=load()||{tab:0,solved:[false,false,false,false],sound:false,celebrated:false};
-        function persist(){save(state);}
+  var state=load()||{tab:0,solved:[false,false,false,false],sound:false,celebrated:false};
+  function persist(){save(state);}
 
-        var lit=[], selected=null, locked=false;
-        var dragCand=null, ghost=null;
+  var lit=[], selected=null, locked=false;
+  var dragCand=null, ghost=null;
 
-        /* ---- sound (exact spec functions) ---- */
-        var ctx;
-        function ac(){
-          if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();
-          if(ctx.state==='suspended')ctx.resume();
-          return ctx;
-        }
-        function tone(f,t0,dur,type,peak){
-          try{
-            var c=ac(),o=c.createOscillator(),g=c.createGain();
-            o.type=type;o.frequency.value=f;
-            var s=c.currentTime+t0;
-            g.gain.setValueAtTime(0.0001,s);
-            g.gain.exponentialRampToValueAtTime(peak,s+0.012);
-            g.gain.exponentialRampToValueAtTime(0.0001,s+dur);
-            o.connect(g);g.connect(c.destination);
-            o.start(s);o.stop(s+dur+0.02);
-          }catch(e){}
-        }
-        function playCorrect(){tone(523,0,0.10,'square',0.22);tone(659,0.09,0.10,'square',0.22);tone(784,0.18,0.18,'square',0.22);}
-        function playWrong(){tone(330,0,0.13,'triangle',0.3);tone(247,0.12,0.20,'triangle',0.3);}
-        function playWin(){tone(659,0,0.10,'square',0.22);tone(784,0.10,0.10,'square',0.22);tone(1047,0.20,0.10,'square',0.22);tone(1319,0.30,0.10,'square',0.22);tone(1047,0.40,0.10,'square',0.22);tone(1319,0.50,0.28,'square',0.24);}
+  /* ---- sound (exact spec functions) ---- */
+  var ctx;
+  function ac(){
+    if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state==='suspended')ctx.resume();
+    return ctx;
+  }
+  function tone(f,t0,dur,type,peak){
+    try{
+      var c=ac(),o=c.createOscillator(),g=c.createGain();
+      o.type=type;o.frequency.value=f;
+      var s=c.currentTime+t0;
+      g.gain.setValueAtTime(0.0001,s);
+      g.gain.exponentialRampToValueAtTime(peak,s+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001,s+dur);
+      o.connect(g);g.connect(c.destination);
+      o.start(s);o.stop(s+dur+0.02);
+    }catch(e){}
+  }
+  function playCorrect(){tone(523,0,0.10,'square',0.22);tone(659,0.09,0.10,'square',0.22);tone(784,0.18,0.18,'square',0.22);}
+  function playWrong(){tone(330,0,0.13,'triangle',0.3);tone(247,0.12,0.20,'triangle',0.3);}
+  function playWin(){tone(659,0,0.10,'square',0.22);tone(784,0.10,0.10,'square',0.22);tone(1047,0.20,0.10,'square',0.22);tone(1319,0.30,0.10,'square',0.22);tone(1047,0.40,0.10,'square',0.22);tone(1319,0.50,0.28,'square',0.24);}
 
-        var $tabs=document.getElementById('tabs'),$eq=document.getElementById('equation'),
-            $fb=document.getElementById('fb'),$next=document.getElementById('next'),
-            $hint=document.getElementById('hint'),$reset=document.getElementById('reset'),
-            $steps=document.getElementById('steps'),$stepsList=document.getElementById('stepsList'),
-            $sound=document.getElementById('sound');
+  var $tabs=document.getElementById('tabs'),$eq=document.getElementById('equation'),
+      $fb=document.getElementById('fb'),$next=document.getElementById('next'),
+      $hint=document.getElementById('hint'),$reset=document.getElementById('reset'),
+      $steps=document.getElementById('steps'),$stepsList=document.getElementById('stepsList'),
+      $sound=document.getElementById('sound');
 
-        function setLitFrom(digits){lit=digits.map(function(d){return new Set(DIGITS[d]);});}
+  function setLitFrom(digits){lit=digits.map(function(d){return new Set(DIGITS[d]);});}
 
-        function buildTabs(){
-          $tabs.innerHTML='';
-          PUZZLES.forEach(function(_,i){
-            var b=document.createElement('button');
-            b.className='tab';b.textContent='P'+(i+1);
-            if(i===state.tab)b.classList.add('active');
-            else if(state.solved[i])b.classList.add('done');
-            b.onclick=function(){switchTab(i);};
-            $tabs.appendChild(b);
+  function buildTabs(){
+    $tabs.innerHTML='';
+    PUZZLES.forEach(function(_,i){
+      var b=document.createElement('button');
+      b.className='tab';b.textContent='P'+(i+1);
+      if(i===state.tab)b.classList.add('active');
+      else if(state.solved[i])b.classList.add('done');
+      b.onclick=function(){switchTab(i);};
+      $tabs.appendChild(b);
+    });
+  }
+
+  function buildEquation(){
+    $eq.innerHTML='';var di=0;
+    for(var t=0;t<5;t++){
+      if(t===0||t===2||t===4){
+        var dEl=document.createElement('div');dEl.className='digit';dEl.dataset.di=di;
+        (function(idx){
+          ALLSEG.forEach(function(seg){
+            var s=document.createElement('div');
+            s.className='seg '+HCLASS[seg]+' seg-'+seg;
+            s.dataset.di=idx;s.dataset.seg=seg;
+            s.addEventListener('pointerdown',onSegDown,{passive:false});
+            dEl.appendChild(s);
           });
-        }
+        })(di);
+        $eq.appendChild(dEl);di++;
+      }else{
+        var op=document.createElement('div');
+        if(t===1){op.className='op op-mul';op.innerHTML='<div class="opbar b1"></div><div class="opbar b2"></div>';}
+        else{op.className='op op-eq';op.innerHTML='<div class="opbar e1"></div><div class="opbar e2"></div>';}
+        $eq.appendChild(op);
+      }
+    }
+  }
 
-        function buildEquation(){
-          $eq.innerHTML='';var di=0;
-          for(var t=0;t<5;t++){
-            if(t===0||t===2||t===4){
-              var dEl=document.createElement('div');dEl.className='digit';dEl.dataset.di=di;
-              (function(idx){
-                ALLSEG.forEach(function(seg){
-                  var s=document.createElement('div');
-                  s.className='seg '+HCLASS[seg]+' seg-'+seg;
-                  s.dataset.di=idx;s.dataset.seg=seg;
-                  s.addEventListener('pointerdown',onSegDown,{passive:false});
-                  dEl.appendChild(s);
-                });
-              })(di);
-              $eq.appendChild(dEl);di++;
-            }else{
-              var op=document.createElement('div');
-              if(t===1){op.className='op op-mul';op.innerHTML='<div class="opbar b1"></div><div class="opbar b2"></div>';}
-              else{op.className='op op-eq';op.innerHTML='<div class="opbar e1"></div><div class="opbar e2"></div>';}
-              $eq.appendChild(op);
-            }
-          }
-        }
+  function render(){
+    $eq.querySelectorAll('.digit').forEach(function(dEl){
+      var di=parseInt(dEl.dataset.di,10);
+      dEl.classList.toggle('solved',locked);
+      dEl.querySelectorAll('.seg').forEach(function(s){
+        var seg=s.dataset.seg,on=lit[di].has(seg);
+        s.classList.toggle('on',on);
+        s.classList.toggle('sel',!!(selected&&selected.di===di&&selected.seg===seg));
+      });
+    });
+  }
 
-        function render(){
-          $eq.querySelectorAll('.digit').forEach(function(dEl){
-            var di=parseInt(dEl.dataset.di,10);
-            dEl.classList.toggle('solved',locked);
-            dEl.querySelectorAll('.seg').forEach(function(s){
-              var seg=s.dataset.seg,on=lit[di].has(seg);
-              s.classList.toggle('on',on);
-              s.classList.toggle('sel',!!(selected&&selected.di===di&&selected.seg===seg));
-            });
-          });
-        }
+  function feedback(msg,cls){$fb.className='fb show '+cls;$fb.textContent=msg;}
+  function clearFb(){$fb.className='fb';$fb.textContent='';}
 
-        function feedback(msg,cls){$fb.className='fb show '+cls;$fb.textContent=msg;}
-        function clearFb(){$fb.className='fb';$fb.textContent='';}
+  function digitValue(di){var k=Array.from(lit[di]).sort().join('|');return REV.hasOwnProperty(k)?REV[k]:null;}
 
-        function digitValue(di){var k=Array.from(lit[di]).sort().join('|');return REV.hasOwnProperty(k)?REV[k]:null;}
+  function evaluate(){
+    var v=[];
+    for(var i=0;i<lit.length;i++){var d=digitValue(i);if(d===null)return{state:'invalid'};v.push(d);}
+    return{state:(v[0]*v[1]===v[2])?'win':'wrong',vals:v};
+  }
 
-        function evaluate(){
-          var v=[];
-          for(var i=0;i<lit.length;i++){var d=digitValue(i);if(d===null)return{state:'invalid'};v.push(d);}
-          return{state:(v[0]*v[1]===v[2])?'win':'wrong',vals:v};
-        }
+  function doMove(fdi,fseg,tdi,tseg){
+    lit[fdi].delete(fseg);lit[tdi].add(tseg);
+    selected=null;render();
+    var r=evaluate();
+    if(r.state==='win'){win(r.vals);}
+    else{
+      feedback(r.state==='invalid'?'આ આંકડો બને એમ નથી 🤔':'ખોટું! ફરી પ્રયત્ન કરો','bad');
+      if(state.sound)playWrong();
+      $eq.classList.add('shake');
+      setTimeout(function(){$eq.classList.remove('shake');},330);
+      setTimeout(function(){setLitFrom(PUZZLES[state.tab].start);selected=null;render();},650);
+    }
+  }
 
-        function doMove(fdi,fseg,tdi,tseg){
-          lit[fdi].delete(fseg);lit[tdi].add(tseg);
-          selected=null;render();
-          var r=evaluate();
-          if(r.state==='win'){win(r.vals);}
-          else{
-            feedback(r.state==='invalid'?'આ આંકડો બને એમ નથી 🤔':'ખોટું! ફરી પ્રયત્ન કરો','bad');
-            if(state.sound)playWrong();
-            $eq.classList.add('shake');
-            setTimeout(function(){$eq.classList.remove('shake');},330);
-            setTimeout(function(){setLitFrom(PUZZLES[state.tab].start);selected=null;render();},650);
-          }
-        }
+  function onSegTap(di,seg){
+    if(locked)return;
+    if(selected&&selected.di===di&&selected.seg===seg){selected=null;render();return;}
+    if(lit[di].has(seg)){selected={di:di,seg:seg};clearFb();render();}
+  }
 
-        function onSegTap(di,seg){
-          if(locked)return;
-          if(selected&&selected.di===di&&selected.seg===seg){selected=null;render();return;}
-          if(lit[di].has(seg)){selected={di:di,seg:seg};clearFb();render();}
-        }
+  function onSegDown(e){
+    if(locked)return;
+    var di=parseInt(this.dataset.di,10),seg=this.dataset.seg;
+    if(lit[di].has(seg)){
+      e.preventDefault();
+      dragCand={di:di,seg:seg,el:this,sx:e.clientX,sy:e.clientY,moved:false};
+    }else{
+      if(selected){var s=selected;selected=null;doMove(s.di,s.seg,di,seg);}
+    }
+  }
 
-        function onSegDown(e){
-          if(locked)return;
-          var di=parseInt(this.dataset.di,10),seg=this.dataset.seg;
-          if(lit[di].has(seg)){
-            e.preventDefault();
-            dragCand={di:di,seg:seg,el:this,sx:e.clientX,sy:e.clientY,moved:false};
-          }else{
-            if(selected){var s=selected;selected=null;doMove(s.di,s.seg,di,seg);}
-          }
-        }
+  function segUnder(x,y){
+    var el=document.elementFromPoint(x,y);
+    while(el&&el!==document.body){if(el.classList&&el.classList.contains('seg'))return el;el=el.parentElement;}
+    return null;
+  }
+  function clearDragVisuals(){
+    $eq.querySelectorAll('.seg').forEach(function(s){s.classList.remove('dropHover');s.style.opacity='';});
+    if(ghost){ghost.remove();ghost=null;}
+  }
+  function winMove(e){
+    if(!dragCand)return;
+    var dx=e.clientX-dragCand.sx,dy=e.clientY-dragCand.sy;
+    if(!dragCand.moved&&(Math.abs(dx)+Math.abs(dy)>6)){
+      dragCand.moved=true;clearFb();selected=null;render();
+      dragCand.el.style.opacity='0.25';
+      ghost=document.createElement('div');ghost.className='ghost';document.body.appendChild(ghost);
+    }
+    if(dragCand.moved){
+      if(e.cancelable)e.preventDefault();
+      ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';
+      $eq.querySelectorAll('.seg.dropHover').forEach(function(s){s.classList.remove('dropHover');});
+      var t=segUnder(e.clientX,e.clientY);
+      if(t){var tdi=parseInt(t.dataset.di,10),ts=t.dataset.seg;if(!lit[tdi].has(ts))t.classList.add('dropHover');}
+    }
+  }
+  function winUp(e){
+    if(!dragCand)return;
+    var d=dragCand;dragCand=null;
+    if(d.moved){
+      var t=segUnder(e.clientX,e.clientY);
+      clearDragVisuals();
+      if(t){var tdi=parseInt(t.dataset.di,10),ts=t.dataset.seg;if(!lit[tdi].has(ts)){doMove(d.di,d.seg,tdi,ts);return;}}
+      render();
+    }else{onSegTap(d.di,d.seg);}
+  }
+  function winCancel(){if(dragCand){dragCand=null;clearDragVisuals();render();}}
+  window.addEventListener('pointermove',winMove,{passive:false});
+  window.addEventListener('pointerup',winUp,{passive:false});
+  window.addEventListener('pointercancel',winCancel,{passive:false});
 
-        function segUnder(x,y){
-          var el=document.elementFromPoint(x,y);
-          while(el&&el!==document.body){if(el.classList&&el.classList.contains('seg'))return el;el=el.parentElement;}
-          return null;
-        }
-        function clearDragVisuals(){
-          $eq.querySelectorAll('.seg').forEach(function(s){s.classList.remove('dropHover');s.style.opacity='';});
-          if(ghost){ghost.remove();ghost=null;}
-        }
-        function winMove(e){
-          if(!dragCand)return;
-          var dx=e.clientX-dragCand.sx,dy=e.clientY-dragCand.sy;
-          if(!dragCand.moved&&(Math.abs(dx)+Math.abs(dy)>6)){
-            dragCand.moved=true;clearFb();selected=null;render();
-            dragCand.el.style.opacity='0.25';
-            ghost=document.createElement('div');ghost.className='ghost';document.body.appendChild(ghost);
-          }
-          if(dragCand.moved){
-            if(e.cancelable)e.preventDefault();
-            ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';
-            $eq.querySelectorAll('.seg.dropHover').forEach(function(s){s.classList.remove('dropHover');});
-            var t=segUnder(e.clientX,e.clientY);
-            if(t){var tdi=parseInt(t.dataset.di,10),ts=t.dataset.seg;if(!lit[tdi].has(ts))t.classList.add('dropHover');}
-          }
-        }
-        function winUp(e){
-          if(!dragCand)return;
-          var d=dragCand;dragCand=null;
-          if(d.moved){
-            var t=segUnder(e.clientX,e.clientY);
-            clearDragVisuals();
-            if(t){var tdi=parseInt(t.dataset.di,10),ts=t.dataset.seg;if(!lit[tdi].has(ts)){doMove(d.di,d.seg,tdi,ts);return;}}
-            render();
-          }else{onSegTap(d.di,d.seg);}
-        }
-        function winCancel(){if(dragCand){dragCand=null;clearDragVisuals();render();}}
-        window.addEventListener('pointermove',winMove,{passive:false});
-        window.addEventListener('pointerup',winUp,{passive:false});
-        window.addEventListener('pointercancel',winCancel,{passive:false});
+  function win(vals){
+    locked=true;selected=null;render();
+    state.solved[state.tab]=true;persist();buildTabs();
+    var isLast=state.tab===PUZZLES.length-1;
+    $next.style.display=isLast?'none':'block';
+    $steps.style.display='block';
+    if(state.solved.every(Boolean)){
+      feedback('બધી કોયડા પૂર્ણ! 🎉 Well done!','done');
+      if(state.sound)playWin();
+      if(!state.celebrated){state.celebrated=true;persist();confetti();}
+    }else{
+      feedback('સાચું! 🎉 '+vals[0]+' × '+vals[1]+' = '+vals[2],'ok');
+      if(state.sound)playCorrect();
+    }
+  }
 
-        function win(vals){
-          locked=true;selected=null;render();
-          state.solved[state.tab]=true;persist();buildTabs();
-          $next.style.display='block';
-          $steps.style.display='block';
-          if(state.solved.every(Boolean)){
-            feedback('બધી કોયડા પૂર્ણ! 🎉 Well done!','done');
-            if(state.sound)playWin();
-            if(!state.celebrated){state.celebrated=true;persist();confetti();}
-          }else{
-            feedback('સાચું! 🎉 '+vals[0]+' × '+vals[1]+' = '+vals[2],'ok');
-            if(state.sound)playCorrect();
-          }
-        }
+  function showHint(){
+    if(locked)return;
+    var h=PUZZLES[state.tab].hint;
+    feedback('આ દિવાસળી ને ખાલી જગ્યામાં ખેંચો','hint');
+    var f=$eq.querySelector('.seg[data-di="'+h.fromDi+'"][data-seg="'+h.fromSeg+'"]');
+    var t=$eq.querySelector('.seg[data-di="'+h.toDi+'"][data-seg="'+h.toSeg+'"]');
+    [f,t].forEach(function(el){if(el)el.classList.remove('hintFrom','hintTo');});
+    if(f)f.classList.add('hintFrom');
+    if(t)t.classList.add('hintTo');
+    setTimeout(function(){if(f)f.classList.remove('hintFrom');if(t)t.classList.remove('hintTo');},1700);
+  }
 
-        function showHint(){
-          if(locked)return;
-          var h=PUZZLES[state.tab].hint;
-          feedback('આ દિવાસળી ને ખાલી જગ્યામાં ખેંચો','hint');
-          var f=$eq.querySelector('.seg[data-di="'+h.fromDi+'"][data-seg="'+h.fromSeg+'"]');
-          var t=$eq.querySelector('.seg[data-di="'+h.toDi+'"][data-seg="'+h.toSeg+'"]');
-          [f,t].forEach(function(el){if(el)el.classList.remove('hintFrom','hintTo');});
-          if(f)f.classList.add('hintFrom');
-          if(t)t.classList.add('hintTo');
-          setTimeout(function(){if(f)f.classList.remove('hintFrom');if(t)t.classList.remove('hintTo');},1700);
-        }
+  function resetCurrent(){
+    state.solved[state.tab]=false;persist();
+    locked=false;selected=null;
+    setLitFrom(PUZZLES[state.tab].start);render();clearFb();
+    $next.style.display='none';$steps.style.display='none';buildTabs();
+  }
 
-        function resetCurrent(){
-          state.solved[state.tab]=false;persist();
-          locked=false;selected=null;
-          setLitFrom(PUZZLES[state.tab].start);render();clearFb();
-          $next.style.display='none';$steps.style.display='none';buildTabs();
-        }
+  function loadSteps(){
+    $stepsList.innerHTML='';
+    PUZZLES[state.tab].steps.forEach(function(s){var li=document.createElement('li');li.textContent=s;$stepsList.appendChild(li);});
+  }
 
-        function loadSteps(){
-          $stepsList.innerHTML='';
-          PUZZLES[state.tab].steps.forEach(function(s){var li=document.createElement('li');li.textContent=s;$stepsList.appendChild(li);});
-        }
+  function switchTab(i){
+    state.tab=i;persist();selected=null;
+    locked=state.solved[i];
+    setLitFrom(locked?PUZZLES[i].sol:PUZZLES[i].start);
+    buildTabs();render();clearFb();loadSteps();
+    var isLast=i===PUZZLES.length-1;
+    $next.style.display=(locked&&!isLast)?'block':'none';
+    $steps.style.display=locked?'block':'none';
+  }
 
-        function switchTab(i){
-          state.tab=i;persist();selected=null;
-          locked=state.solved[i];
-          setLitFrom(locked?PUZZLES[i].sol:PUZZLES[i].start);
-          buildTabs();render();clearFb();loadSteps();
-          $next.style.display=locked?'block':'none';
-          $steps.style.display=locked?'block':'none';
-        }
+  function gotoNext(){
+    window.scrollTo({top:0,behavior:'smooth'});
+    var n=state.tab+1;if(n<PUZZLES.length)switchTab(n);
+  }
 
-        function gotoNext(){
-          window.scrollTo({top:0,behavior:'smooth'});
-          var n=state.tab+1;if(n<PUZZLES.length)switchTab(n);
-        }
+  function confetti(){
+    var box=document.getElementById('confetti'),colors=['#752886','#F9A824','#1e88e5','#43a047'];
+    for(var i=0;i<18;i++){
+      var c=document.createElement('div');c.className='cf';
+      c.style.left=(Math.random()*100)+'%';c.style.background=colors[i%4];
+      c.style.animationDuration=(1.6+Math.random()*0.8)+'s';
+      c.style.animationDelay=(Math.random()*0.3)+'s';
+      box.appendChild(c);
+    }
+    setTimeout(function(){box.innerHTML='';},2600);
+  }
 
-        function confetti(){
-          var box=document.getElementById('confetti'),colors=['#752886','#F9A824','#1e88e5','#43a047'];
-          for(var i=0;i<18;i++){
-            var c=document.createElement('div');c.className='cf';
-            c.style.left=(Math.random()*100)+'%';c.style.background=colors[i%4];
-            c.style.animationDuration=(1.6+Math.random()*0.8)+'s';
-            c.style.animationDelay=(Math.random()*0.3)+'s';
-            box.appendChild(c);
-          }
-          setTimeout(function(){box.innerHTML='';},2600);
-        }
+  $next.onclick=gotoNext;
+  $hint.onclick=showHint;
+  $reset.onclick=resetCurrent;
+  $sound.onclick=function(){state.sound=!state.sound;persist();$sound.textContent=state.sound?'🔊':'🔇';if(state.sound)playCorrect();};
 
-        $next.onclick=gotoNext;
-        $hint.onclick=showHint;
-        $reset.onclick=resetCurrent;
-        $sound.onclick=function(){state.sound=!state.sound;persist();$sound.textContent=state.sound?'🔊':'🔇';if(state.sound)playCorrect();};
-
-        function init(){
-          $sound.textContent=state.sound?'🔊':'🔇';
-          buildTabs();buildEquation();loadSteps();
-          locked=state.solved[state.tab];
-          setLitFrom(locked?PUZZLES[state.tab].sol:PUZZLES[state.tab].start);
-          render();
-          $next.style.display=locked?'block':'none';
-          $steps.style.display=locked?'block':'none';
-          if(state.solved.every(Boolean))feedback('બધી કોયડા પૂર્ણ! 🎉 Well done!','done');
-        }
-        init();
-      })();
-    </script>
-  </body>
+  function init(){
+    $sound.textContent=state.sound?'🔊':'🔇';
+    buildTabs();buildEquation();loadSteps();
+    locked=state.solved[state.tab];
+    setLitFrom(locked?PUZZLES[state.tab].sol:PUZZLES[state.tab].start);
+    render();
+    var isLast=state.tab===PUZZLES.length-1;
+    $next.style.display=(locked&&!isLast)?'block':'none';
+    $steps.style.display=locked?'block':'none';
+    if(state.solved.every(Boolean))feedback('બધી કોયડા પૂર્ણ! 🎉 Well done!','done');
+  }
+  init();
+})();
+</script>
+</body>
 </html>
